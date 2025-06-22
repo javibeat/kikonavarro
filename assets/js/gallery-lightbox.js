@@ -53,9 +53,27 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!lightboxOverlay) return;
   
   const closeBtn = lightboxOverlay.querySelector('.lightbox-close') || lightboxOverlay.querySelector('.close');
-  const nextBtns = lightboxOverlay.querySelectorAll('.lightbox-next') || lightboxOverlay.querySelectorAll('.next');
-  const prevBtns = lightboxOverlay.querySelectorAll('.lightbox-prev') || lightboxOverlay.querySelectorAll('.prev');
-
+  // Corregir los selectores para que funcionen
+  const nextBtns = lightboxOverlay.querySelectorAll('.lightbox-next, .next');
+  const prevBtns = lightboxOverlay.querySelectorAll('.lightbox-prev, .prev');
+  
+  // También asegurar que los eventos se asignen correctamente
+  nextBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      showNextImage();
+    });
+  });
+  
+  prevBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      showPrevImage();
+    });
+  });
+  
   if (closeBtn) closeBtn.addEventListener('click', hideLightbox);
   nextBtns.forEach(btn => btn.addEventListener('click', showNextImage));
   prevBtns.forEach(btn => btn.addEventListener('click', showPrevImage));
