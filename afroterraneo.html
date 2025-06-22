@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Afroterraneo Band - Kiko Navarro | Afro-Mediterranean Music Project</title>
+  <meta name="description" content="Discover Afroterraneo, Kiko Navarro's Afro-Mediterranean music project blending African rhythms with Mediterranean sounds. Experience the fusion of cultures through music." />
+  <meta name="keywords" content="Afroterraneo, Kiko Navarro, Afro-Mediterranean music, African rhythms, world music, cultural fusion, Mediterranean sounds" />
+  <meta name="author" content="Kiko Navarro" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://kikonavarro.es/afroterraneo.html" />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://kikonavarro.es/afroterraneo.html" />
+  <meta property="og:title" content="Afroterraneo Band - Kiko Navarro | Afro-Mediterranean Music Project" />
+  <meta property="og:description" content="Discover Afroterraneo, Kiko Navarro's Afro-Mediterranean music project blending African rhythms with Mediterranean sounds. Experience the fusion of cultures through music." />
+  <meta property="og:image" content="https://kikonavarro.es/assets/img/afroterraneo-album.jpg" />
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://kikonavarro.es/afroterraneo.html" />
+  <meta property="twitter:title" content="Afroterraneo Band - Kiko Navarro | Afro-Mediterranean Music Project" />
+  <meta property="twitter:description" content="Discover Afroterraneo, Kiko Navarro's Afro-Mediterranean music project blending African rhythms with Mediterranean sounds. Experience the fusion of cultures through music." />
+  <meta property="twitter:image" content="https://kikonavarro.es/assets/img/afroterraneo-album.jpg" />
+  
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+
+<div id="menu-container"></div>
+
+<main class="main-content">
+  <div class="afro-logo-container">
+    <img src="assets/img/afroterraneo-logo.png" alt="Afroterraneo Logo" class="afro-logo" loading="lazy" srcset="assets/img/afroterraneo-logo.png 1x, assets/img/afroterraneo-logo.png 2x" sizes="(max-width: 600px) 100vw, 50vw" />
+  </div>
+  <section class="album-section bento">
+    <div class="album-flex">
+      <img src="assets/img/afroterraneo-album.jpg" alt="Afroterraneo Band" class="album-img" loading="lazy" srcset="assets/img/afroterraneo-album.jpg 1x, assets/img/afroterraneo-album.jpg 2x" sizes="(max-width: 600px) 100vw, 33vw">
+      <div class="album-info">
+        <h2>AFROTERRANEO Band</h2>
+        <p>Wonderwheel Recordings 2020</p>
+        <div class="afro-player-container">
+          <iframe class="afro-spotify-embed" src="https://open.spotify.com/embed/album/4BpBqfC0qi6MaB3l96QBo4?utm_source=generator" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+        <div class="album-links">
+          <a href="https://open.spotify.com/album/4BpBqfC0qi6MaB3l96QBo4" target="_blank" class="platform-btn spotify" title="Spotify">
+            <img src="assets/icons/spotify.svg" alt="Spotify"/>
+          </a>
+          <a href="https://music.apple.com/es/album/afroterraneo/1504581491" target="_blank" class="platform-btn apple" title="Apple Music">
+            <img src="assets/icons/apple-music.svg" alt="Apple Music"/>
+          </a>
+          <a href="https://kikonavarro.bandcamp.com" target="_blank" class="platform-btn bandcamp" title="Bandcamp">
+            <img src="assets/icons/bandcamp.png" alt="Bandcamp"/>
+          </a>
+          <a href="https://www.beatport.com/release/afroterraneo/2907968" target="_blank" class="platform-btn beatport" title="Beatport">
+            <img src="assets/icons/beatport.svg" alt="Beatport"/>
+          </a>
+          <a href="https://www.traxsource.com/title/1342762/afroterraneo" target="_blank" class="platform-btn traxsource" title="Traxsource">
+            <img src="assets/icons/traxsource.png" alt="Traxsource"/>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="footer-container"></div>
+<script src="assets/js/menu.js"></script>
+<script>
+  fetch('menu.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('menu-container').innerHTML = data;
+      if (window.initMenuListeners) window.initMenuListeners();
+    });
+  fetch('footer.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('footer-container').innerHTML = data;
+    });
+</script>
+</body>
+</html>

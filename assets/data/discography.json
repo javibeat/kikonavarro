@@ -1,0 +1,68 @@
+{
+  "albums": [
+    {
+      "id": "sounds-of-my-breath",
+      "title": "Sounds of my breath",
+      "year": "2022",
+      "image": "assets/img/soundscd.jpg",
+      "platforms": {
+        "spotify": "https://open.spotify.com/album/48o3Ej6ssdbjz3LuxSyea6?si=MUUJpOj6Sa6jLz_4JyEeKg",
+        "apple": "https://music.apple.com/ae/album/1626561225?ign-itscg=30440&ign-itsct=catchall_p1",
+        "bandcamp": "https://kikonavarro.bandcamp.com/album/sounds-of-my-breath-2",
+        "beatport": "https://www.beatport.com/release/sounds-of-my-breath/3762548",
+        "traxsource": "https://www.traxsource.com/title/1819992/sounds-of-my-breath?lf=be2d38d07145e7d2fd8e14ff47fe2a1f"
+      }
+    },
+    {
+      "id": "slowly",
+      "title": "Slowly",
+      "year": "2021",
+      "image": "assets/img/slowly.jpg",
+      "platforms": {
+        "spotify": "https://open.spotify.com/album/6CFaSVDRKjHsmC3SUArCno?si=yfrERfFpRUWJfE3uWeBRSA"
+      }
+    },
+    {
+      "id": "afroterraneo-remixed",
+      "title": "Afroterraneo (Remixed)",
+      "year": "2021",
+      "image": "assets/img/afroterraneo-remixed-album.jpeg",
+      "platforms": {
+        "spotify": "https://open.spotify.com/album/5ODhNv57iEUfozJlpl3A6o?si=j6forGVxRkKo-YCP27komQ"
+      }
+    }
+  ],
+  "singles": [
+    {
+      "id": "captain-of-her-heart",
+      "title": "Captain of Her Heart",
+      "year": "2024",
+      "image": "assets/img/single-captain-of-her-heart.webp",
+      "platforms": {
+        "spotify": "https://open.spotify.com/track/example"
+      }
+    }
+  ],
+  "remixes": [
+    {
+      "id": "moonlight-remixes",
+      "title": "Moonlight (The Remixes)",
+      "year": "2017",
+      "image": "assets/img/remixes/6010b928-ba7e-4407-b032-a6b9c14dddcc-300x300.jpg",
+      "platforms": {
+        "spotify": "https://open.spotify.com/album/7HS1dqEbvbXXXNgATcK8m9?si=vA-KWdJFSP2fvICmf4LSng"
+      }
+    }
+  ],
+  "compilations": [
+    {
+      "id": "pacha-summer-2011",
+      "title": "Pacha Summer 2011",
+      "year": "2011",
+      "image": "assets/img/comp-pacha-summer-2011.jpeg",
+      "platforms": {
+        "spotify": "https://open.spotify.com/album/example"
+      }
+    }
+  ]
+}

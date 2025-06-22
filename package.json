@@ -1,0 +1,22 @@
+{
+  "name": "kiko-navarro-website",
+  "version": "1.0.0",
+  "description": "Kiko Navarro official website",
+  "scripts": {
+    "build": "npm run build:css && npm run optimize:images",
+    "build:css": "postcss assets/css/style.css -o assets/css/style.min.css --use cssnano",
+    "optimize:images": "imagemin assets/img/*.{jpg,jpeg,png} --out-dir=assets/img/optimized",
+    "dev": "live-server --port=3000",
+    "test": "lighthouse http://localhost:3000 --output=html --output-path=./lighthouse-report.html"
+  },
+  "devDependencies": {
+    "cssnano": "^5.1.15",
+    "postcss": "^8.4.31",
+    "postcss-cli": "^10.1.0",
+    "imagemin": "^8.0.1",
+    "imagemin-mozjpeg": "^10.0.0",
+    "imagemin-pngquant": "^9.0.2",
+    "live-server": "^1.2.2",
+    "lighthouse": "^10.4.0"
+  }
+}
