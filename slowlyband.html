@@ -134,11 +134,63 @@
   <script src="assets/js/gallery-lightbox.js"></script>
   <script>
     // Script de inicialización para la galería de esta página
+    // Script de Masonry Gallery (JS Distribution)
     document.addEventListener('DOMContentLoaded', () => {
-      const imagesOnPage = document.querySelectorAll('.gallery-img');
-      if (window.setupLightbox) {
-        window.setupLightbox(Array.from(imagesOnPage));
+      const container = document.querySelector('.gallery-masonry');
+      if (!container) return;
+
+      // 1. Capturar referencias iniciales y marcar orden
+      let images = Array.from(container.querySelectorAll('img'));
+      images.forEach((img, i) => img.setAttribute('data-index', i));
+
+      function getColCount() {
+        const w = window.innerWidth;
+        if (w <= 768) return 2;
+        if (w <= 1200) return 3;
+        return 4;
       }
+
+      function distribute() {
+        const colCount = getColCount();
+        const currentImages = Array.from(container.querySelectorAll('img'));
+
+        // Ordenar por índice original para mantener cronología
+        currentImages.sort((a, b) => a.getAttribute('data-index') - b.getAttribute('data-index'));
+
+        // Crear columnas
+        container.innerHTML = '';
+        const cols = [];
+        for (let i = 0; i < colCount; i++) {
+          const col = document.createElement('div');
+          col.className = 'masonry-col';
+          cols.push(col);
+          container.appendChild(col);
+        }
+
+        // Distribuir
+        currentImages.forEach((img, i) => {
+          cols[i % colCount].appendChild(img);
+        });
+      }
+
+      // 2. Ejecutar distribución inicial
+      distribute();
+
+      // 3. Inicializar Lightbox (Clona nodos, así que reinicia referencias)
+      if (window.setupLightbox) {
+        // Seleccionamos las imágenes que acabamos de distribuir
+        const distributedImages = Array.from(container.querySelectorAll('img'));
+        window.setupLightbox(distributedImages);
+      }
+
+      // 4. Manejar Resize (Solo redistribuimos los nodos YA clonados/activos)
+      let resizeTimer;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+          distribute();
+        }, 100);
+      });
     });
 
     // Carga de menú y footer
