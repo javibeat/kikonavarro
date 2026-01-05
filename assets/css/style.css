@@ -698,7 +698,7 @@ main {
     max-width: 100vw;
     min-width: 0;
   }
-  
+
   .album-img {
     max-width: 100%;
     min-width: 0;
@@ -842,7 +842,8 @@ main {
 }
 
 .platform-btn.spotify img {
-  filter: none; /* Asegurar que Spotify sea visible */
+  filter: none;
+  /* Asegurar que Spotify sea visible */
 }
 
 .album-links .platform-btn img {
@@ -851,9 +852,11 @@ main {
   display: block;
   object-fit: cover;
 }
+
 .platform-btn:hover img {
   transform: none;
 }
+
 /* Eliminar los colores específicos de cada plataforma y tamaños específicos */
 .platform-btn.spotify,
 .platform-btn.apple,
@@ -863,6 +866,7 @@ main {
   background: transparent;
   filter: none;
 }
+
 .platform-btn.spotify:hover,
 .platform-btn.apple:hover,
 .platform-btn.bandcamp:hover,
@@ -871,6 +875,7 @@ main {
   background: transparent;
   filter: none;
 }
+
 .platform-btn.spotify img,
 .platform-btn.apple img,
 .platform-btn.bandcamp img {
@@ -998,7 +1003,8 @@ main {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
-    padding: 1.5rem 1rem; /* Más padding en móvil */
+    padding: 1.5rem 1rem;
+    /* Más padding en móvil */
   }
 
   .show-date {
@@ -1015,7 +1021,7 @@ main {
     width: 100%;
     justify-content: flex-start;
   }
-  
+
   .show-btn {
     padding: 0.6em 1.2em;
     font-size: 0.95rem;
@@ -1023,7 +1029,8 @@ main {
 }
 
 .lightbox {
-  display: none; /* Ocultar el lightbox por defecto */
+  display: none;
+  /* Ocultar el lightbox por defecto */
   position: fixed;
   z-index: 9999;
   left: 0;
@@ -1068,13 +1075,15 @@ main {
   transform: translateY(-50%);
   display: flex;
   justify-content: space-between;
-  pointer-events: none; /* Permite hacer clic "a través" de la capa */
+  pointer-events: none;
+  /* Permite hacer clic "a través" de la capa */
 }
 
 /* Botones Prev/Next en Escritorio */
 .lightbox .prev,
 .lightbox .next {
-  pointer-events: auto; /* Los botones sí son clicables */
+  pointer-events: auto;
+  /* Los botones sí son clicables */
   cursor: pointer;
   padding: 16px;
   color: white;
@@ -1103,20 +1112,26 @@ main {
 
 /* --- Estilos para Móvil (hasta 700px) --- */
 @media (max-width: 700px) {
+
   /* En móvil, el contenedor de nav no es una capa superpuesta */
   .lightbox-nav {
     position: static;
     transform: none;
-    order: 2; /* Pone los botones después de la imagen */
-    margin-top: 15px; /* Espacio desde la foto */
-    gap: 30px; /* Espacio entre los botones */
-    pointer-events: auto; /* La barra es clicable */
+    order: 2;
+    /* Pone los botones después de la imagen */
+    margin-top: 15px;
+    /* Espacio desde la foto */
+    gap: 30px;
+    /* Espacio entre los botones */
+    pointer-events: auto;
+    /* La barra es clicable */
     justify-content: center;
     width: 100%;
   }
 
   .lightbox-content {
-    order: 1; /* La imagen va primero */
+    order: 1;
+    /* La imagen va primero */
   }
 
   /* Los botones en móvil son más grandes y sin fondo */
@@ -1348,9 +1363,12 @@ footer {
 
 /* Social Links - SIN contenedor con fondo */
 .social-links {
-  display: flex;           /* Ya está en horizontal */
-  gap: 1.5rem;            /* Espaciado entre iconos */
-  align-items: center;    /* Centrados verticalmente */
+  display: flex;
+  /* Ya está en horizontal */
+  gap: 1.5rem;
+  /* Espaciado entre iconos */
+  align-items: center;
+  /* Centrados verticalmente */
   /* ELIMINADO: background, border-radius, padding */
 }
 
@@ -1417,17 +1435,17 @@ footer {
     align-items: center;
     gap: 2rem;
   }
-  
+
   .footer-copyright {
     flex: 1;
   }
-  
+
   .social-links {
     flex: 0 0 auto;
     order: 2;
     /* SIN contenedor de fondo en escritorio también */
   }
-  
+
   .footer-links {
     flex: 1;
     justify-content: flex-end;
@@ -1442,7 +1460,7 @@ footer {
   width: 100%;
   height: auto;
   border-radius: 18px;
-  box-shadow: 0 2px 16px 0 rgba(59,95,255,0.10);
+  box-shadow: 0 2px 16px 0 rgba(59, 95, 255, 0.10);
   flex: 0 0 300px;
 }
 
@@ -1481,27 +1499,27 @@ footer {
     width: 100%;
     max-width: 100%;
   }
-  
+
   .afro-spotify-embed {
     width: 100%;
     max-width: 100%;
     min-width: 0;
     box-sizing: border-box;
   }
-  
+
   .album-flex {
     flex-direction: column;
     gap: 1.5rem;
     align-items: flex-start;
   }
-  
+
   .album-img {
     max-width: 100%;
     min-width: 0;
     flex: 0 0 100%;
     width: 100%;
   }
-  
+
   .album-info {
     width: 100%;
     padding-left: 0;
@@ -1513,6 +1531,7 @@ footer {
   margin: 3rem 0 2rem 0;
   padding: 0 1rem;
 }
+
 .afro-gallery-title {
   font-size: 1.5rem;
   font-weight: 700;
@@ -1520,6 +1539,7 @@ footer {
   text-align: center;
   letter-spacing: 1px;
 }
+
 .afro-gallery {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -1529,24 +1549,28 @@ footer {
   max-width: 900px;
   margin: 0 auto;
 }
+
 .afro-gallery img {
   width: 100%;
   max-width: 220px;
   aspect-ratio: 1/1;
   object-fit: cover;
   border-radius: 16px;
-  box-shadow: 0 2px 12px 0 rgba(59,95,255,0.08);
+  box-shadow: 0 2px 12px 0 rgba(59, 95, 255, 0.08);
   transition: transform 0.2s, box-shadow 0.2s;
 }
+
 .afro-gallery img:hover {
   transform: scale(1.04);
-  box-shadow: 0 4px 24px 0 rgba(59,95,255,0.16);
+  box-shadow: 0 4px 24px 0 rgba(59, 95, 255, 0.16);
 }
+
 @media (max-width: 600px) {
   .afro-gallery {
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
   }
+
   .afro-gallery-title {
     font-size: 1.1rem;
     margin-bottom: 1rem;
@@ -1914,6 +1938,7 @@ footer {
   margin-bottom: 2.5rem;
   flex-wrap: wrap;
 }
+
 .tab-btn {
   background: none;
   border: 1px solid #e0e6eb;
@@ -1951,6 +1976,7 @@ footer {
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -1968,7 +1994,7 @@ footer {
   flex-direction: column;
 }
 
-.disco-item > img {
+.disco-item>img {
   width: 100%;
   aspect-ratio: 1/1;
   object-fit: cover;
@@ -2100,19 +2126,19 @@ footer {
     text-align: center;
     gap: 20px;
   }
-  
+
   .album-img-gallery {
     width: 150px;
     height: 150px;
   }
-  
+
   .social-links {
     flex-direction: row;
     text-align: center;
     gap: 10px;
     justify-content: center;
   }
-  
+
   .social-icons {
     justify-content: center;
   }
@@ -2128,10 +2154,13 @@ footer {
 
 /* --- Carrusel de Pestañas --- */
 .tab-carousel-controls {
-  display: contents; /* En escritorio, el contenedor no afecta al layout */
+  display: contents;
+  /* En escritorio, el contenedor no afecta al layout */
 }
+
 .tab-arrow {
-  display: none; /* Las flechas están ocultas por defecto (en escritorio) */
+  display: none;
+  /* Las flechas están ocultas por defecto (en escritorio) */
 }
 
 /* Vista Móvil para el carrusel de pestañas */
@@ -2139,14 +2168,17 @@ footer {
   .tabs-container {
     margin-bottom: 1rem;
   }
+
   .tab-carousel-controls {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 1rem;
   }
+
   .tab-arrow {
-    display: block; /* Muestra las flechas */
+    display: block;
+    /* Muestra las flechas */
     background: #f0f3ff;
     border: 1px solid #e0e6eb;
     color: #3b5fff;
@@ -2156,25 +2188,35 @@ footer {
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-    flex-shrink: 0; /* Evita que se encojan */
+    flex-shrink: 0;
+    /* Evita que se encojan */
   }
+
   .tab-arrow:disabled {
     opacity: 0.4;
     cursor: not-allowed;
   }
+
   .tab-carousel-controls .tab-buttons {
-    flex-wrap: nowrap; /* Evita que los botones salten de línea */
+    flex-wrap: nowrap;
+    /* Evita que los botones salten de línea */
     justify-content: center;
     margin: 0;
-    width: 120px; /* Ancho para un botón */
-    overflow: hidden; /* Oculta los botones que no quepan */
+    width: 120px;
+    /* Ancho para un botón */
+    overflow: hidden;
+    /* Oculta los botones que no quepan */
   }
+
   .tab-carousel-controls .tab-btn {
-    display: none; /* Oculta todos los botones... */
+    display: none;
+    /* Oculta todos los botones... */
     flex-shrink: 0;
   }
+
   .tab-carousel-controls .tab-btn.active-tab {
-    display: inline-flex; /* ...excepto el activo */
+    display: inline-flex;
+    /* ...excepto el activo */
     justify-content: center;
     width: 100%;
   }
@@ -2205,6 +2247,205 @@ footer {
   flex: 1;
   padding-left: 2.5rem;
 }
+
 .main-content-narrow {
   max-width: 1200px;
+}
+
+/* ===========================================
+   CRITICAL FIX: Album Links ALWAYS Horizontal
+   =========================================== */
+.album-links {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  gap: 0.7rem !important;
+  align-items: center !important;
+}
+
+.album-info .album-links,
+.album-section .album-links,
+.bento .album-links {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  gap: 0.7rem !important;
+  align-items: center !important;
+}
+
+/* Ensure album-info doesn't force column layout on children */
+.album-info {
+  display: block !important;
+}
+
+.album-section .album-info {
+  display: block !important;
+}
+
+/* ===========================================
+   MASONRY GALLERY - Pure CSS Columns
+   Uniform layout without gaps
+   =========================================== */
+.gallery-masonry {
+  display: block !important;
+  column-count: 4;
+  column-gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.gallery-masonry img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 1rem;
+  break-inside: avoid;
+  page-break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  border-radius: 14px;
+  box-shadow: 0 2px 16px 0 rgba(59, 95, 255, 0.08);
+  cursor: pointer;
+  display: inline-block;
+  width: 100%;
+  transition: transform 0.2s;
+}
+
+.gallery-masonry img:hover {
+  transform: scale(1.02);
+  z-index: 10;
+  box-shadow: 0 8px 32px 0 rgba(59, 95, 255, 0.15);
+}
+
+@media (max-width: 1200px) {
+  .gallery-masonry {
+    column-count: 3;
+  }
+}
+
+@media (max-width: 768px) {
+  .gallery-masonry {
+    column-count: 2;
+    column-gap: 0.75rem;
+  }
+
+  .gallery-masonry img {
+    margin-bottom: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery-masonry {
+    column-count: 2;
+    column-gap: 0.5rem;
+  }
+
+  .gallery-masonry img {
+    margin-bottom: 0.5rem;
+  }
+}
+
+
+/* ===========================================
+   FINAL LAYOUT FIXES (BIG CARDS & MASONRY)
+   =========================================== */
+
+/* --- 1. BIG CARD DESIGN (Home & Afroterraneo) --- */
+@media (min-width: 900px) {
+  .album-section .album-flex {
+    display: grid !important;
+    grid-template-columns: 380px 1fr !important;
+    /* Fixed prominent image width */
+    gap: 3rem !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: left !important;
+  }
+
+  .album-section .album-flex .album-img,
+  .album-section .album-flex picture img {
+    width: 100% !important;
+    height: auto !important;
+    max-width: none !important;
+    /* Unlock size */
+    object-fit: cover !important;
+    aspect-ratio: 1 / 1;
+    /* Square album art */
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  }
+
+  .album-section .album-flex .album-info {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    /* Left align content */
+    padding: 0 !important;
+  }
+}
+
+/* --- 2. BUTTONS HORIZONTAL FIX --- */
+/* Force horizontal layout specifically for desktop and mobile */
+.album-links {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  gap: 12px !important;
+  margin-top: 1.5rem !important;
+  width: 100% !important;
+  justify-content: flex-start !important;
+}
+
+.album-links a {
+  display: inline-flex !important;
+  /* Prevent block stacking */
+  flex: 0 0 auto !important;
+  /* Don't grow/shrink unpredictably */
+}
+
+/* Mobile adjustments */
+@media (max-width: 899px) {
+  .album-links {
+    justify-content: center !important;
+  }
+
+  .album-section .album-flex {
+    display: flex !important;
+    flex-direction: column !important;
+    text-align: center !important;
+  }
+
+  .album-section .album-flex .album-img {
+    max-width: 250px !important;
+    /* Smaller on mobile */
+    margin: 0 auto 1.5rem !important;
+  }
+
+  .album-section .album-flex .album-info {
+    align-items: center !important;
+  }
+}
+
+/* --- 3. MASONRY ALIGNMENT --- */
+/* Ensure full width usage inside Bento box */
+.gallery-masonry {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  column-gap: 1.5rem !important;
+  /* Slightly wider gap for elegance */
+  margin-top: 2rem !important;
+  line-height: 0 !important;
+  /* Fix potential ghost spacing */
+}
+
+/* Make images flush within columns */
+.gallery-masonry img {
+  width: 100% !important;
+  display: inline-block !important;
+  /* Critical for top alignment consistency */
+  vertical-align: top !important;
+  /* Force alignment to top */
+  margin-top: 0 !important;
+  /* No top processing */
+  margin-bottom: 1.5rem !important;
+  /* Clear vertical breathing room */
+  border-radius: 12px !important;
 }
