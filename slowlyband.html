@@ -134,12 +134,12 @@
   <script src="assets/js/gallery-lightbox.js"></script>
   <script>
     // Script de inicialización para la galería de esta página
-    // Script de Masonry Gallery (JS Distribution)
+    // Script de Masonry Gallery (Smart Height Balancing)
     document.addEventListener('DOMContentLoaded', () => {
       const container = document.querySelector('.gallery-masonry');
       if (!container) return;
 
-      // 1. Capturar referencias iniciales y marcar orden
+      // 1. Capturar referencias iniciales y marcar estilo
       let images = Array.from(container.querySelectorAll('img'));
       images.forEach((img, i) => img.setAttribute('data-index', i));
 
@@ -154,12 +154,14 @@
         const colCount = getColCount();
         const currentImages = Array.from(container.querySelectorAll('img'));
 
-        // Ordenar por índice original para mantener cronología
+        // Ordenar por índice original antes de distribuir
         currentImages.sort((a, b) => a.getAttribute('data-index') - b.getAttribute('data-index'));
 
-        // Crear columnas
+        // Preparar columnas y trackers de altura
         container.innerHTML = '';
         const cols = [];
+        const colHeights = new Array(colCount).fill(0);
+
         for (let i = 0; i < colCount; i++) {
           const col = document.createElement('div');
           col.className = 'masonry-col';
@@ -167,23 +169,52 @@
           container.appendChild(col);
         }
 
-        // Distribuir
-        currentImages.forEach((img, i) => {
-          cols[i % colCount].appendChild(img);
+        // Algoritmo: Insertar en la columna más corta
+        currentImages.forEach((img) => {
+          // Calcular a qué columna va (La que tenga menos altura acumulada)
+          let minHeight = colHeights[0];
+          let minIndex = 0;
+
+          for (let i = 1; i < colCount; i++) {
+            if (colHeights[i] < minHeight) {
+              minHeight = colHeights[i];
+              minIndex = i;
+            }
+          }
+
+          // Añadir imagen a esa columna
+          cols[minIndex].appendChild(img);
+
+          // Estimar nueva altura (Usamos aspect ratio si está cargada, sino 1 por defecto)
+          let aspectHeight = 1; // Default cuadrado
+          if (img.naturalWidth && img.naturalHeight) {
+            aspectHeight = img.naturalHeight / img.naturalWidth;
+          }
+
+          colHeights[minIndex] += aspectHeight;
         });
       }
 
-      // 2. Ejecutar distribución inicial
+      // 2. Ejecutar distribución inicial (Probablemente Round Robin si imágenes no cargaron)
       distribute();
 
-      // 3. Inicializar Lightbox (Clona nodos, así que reinicia referencias)
+      // 3. Re-distribuir cuando las imágenes carguen para usar alturas reales
+      window.addEventListener('load', () => {
+        distribute();
+        // Reinicializar lightbox con el nuevo orden
+        if (window.setupLightbox) {
+          const distributedImages = Array.from(container.querySelectorAll('img'));
+          window.setupLightbox(distributedImages);
+        }
+      });
+
+      // 4. Inicializar Lightbox al principio también
       if (window.setupLightbox) {
-        // Seleccionamos las imágenes que acabamos de distribuir
         const distributedImages = Array.from(container.querySelectorAll('img'));
         window.setupLightbox(distributedImages);
       }
 
-      // 4. Manejar Resize (Solo redistribuimos los nodos YA clonados/activos)
+      // 5. Manejar Resize
       let resizeTimer;
       window.addEventListener('resize', () => {
         clearTimeout(resizeTimer);
