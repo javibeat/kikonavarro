@@ -27,22 +27,34 @@
             padding: 20px;
         }
 
-        .logo {
+        .logo-link {
+            display: block;
             max-width: 600px;
-            /* Adjust size as needed */
             width: 90%;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-link:hover {
+            transform: scale(1.02);
+        }
+
+        .logo {
+            width: 100%;
             height: auto;
             object-fit: contain;
+            display: block;
         }
     </style>
 </head>
 
 <body>
     <div class="centered-content">
-        <picture>
-            <source srcset="assets/img/webp/afroterraneo-logo.webp" type="image/webp">
-            <img src="assets/img/afroterraneo-logo.png" alt="Afroterraneo Music Logo" class="logo">
-        </picture>
+        <a href="index.html" class="logo-link" aria-label="Go to Kiko Navarro Home">
+            <picture>
+                <source srcset="assets/img/webp/afroterraneo-logo.webp" type="image/webp">
+                <img src="assets/img/afroterraneo-logo.png" alt="Afroterraneo Music Logo" class="logo">
+            </picture>
+        </a>
     </div>
 </body>
 
