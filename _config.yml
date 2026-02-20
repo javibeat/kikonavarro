@@ -1,0 +1,9 @@
+exclude:
+  - node_modules
+  - kikonavarro-main
+  - package.json
+  - package-lock.json
+  - .gemini
+  - brain
+  - implementation_plan.md
+  - deployment_fix_plan.md
