@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin - Kiko Navarro</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <style>
+    .admin-wrap {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+      min-height: 100vh;
+    }
+
+    .admin-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    /* Login */
+    .login-box {
+      max-width: 350px;
+      margin: 15vh auto;
+      text-align: center;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      background: var(--bg-surface);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+    }
+
+    .login-box .btn {
+      width: 100%;
+    }
+
+    .login-error {
+      color: #ff4444;
+      font-size: 0.85rem;
+      margin-top: 0.5rem;
+      display: none;
+    }
+
+    /* Form */
+    .admin-form {
+      display: none;
+    }
+
+    .admin-form.active {
+      display: block;
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.4rem;
+      color: var(--accent-muted);
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.7rem 0.8rem;
+      background: var(--bg-surface);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.95rem;
+      border-radius: 4px;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 60px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .image-preview {
+      max-width: 200px;
+      margin-top: 0.5rem;
+      border-radius: 4px;
+      display: none;
+    }
+
+    .btn-submit {
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+
+    .btn-danger {
+      background: transparent;
+      border: 1px solid #ff4444;
+      color: #ff4444;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+      border-radius: 4px;
+    }
+
+    .btn-danger:hover {
+      background: #ff4444;
+      color: #fff;
+    }
+
+    /* Events list */
+    .events-admin-list {
+      margin-top: 3rem;
+    }
+
+    .events-admin-list h2 {
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 0.5rem;
+    }
+
+    .event-admin-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      gap: 1rem;
+    }
+
+    .event-admin-item img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    .event-admin-info {
+      flex: 1;
+    }
+
+    .event-admin-info strong {
+      display: block;
+      font-size: 0.95rem;
+    }
+
+    .event-admin-info span {
+      font-size: 0.8rem;
+      color: var(--accent-muted);
+    }
+
+    .status-msg {
+      text-align: center;
+      padding: 1rem;
+      margin-top: 1rem;
+      border-radius: 4px;
+      display: none;
+      font-size: 0.9rem;
+    }
+
+    .status-msg.success {
+      display: block;
+      background: rgba(0, 200, 80, 0.1);
+      color: #00c850;
+    }
+
+    .status-msg.error {
+      display: block;
+      background: rgba(255, 68, 68, 0.1);
+      color: #ff4444;
+    }
+
+    .no-events {
+      color: var(--text-muted);
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .event-past {
+      opacity: 0.4;
+    }
+
+    .event-past-badge {
+      font-size: 0.65rem;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 0.15rem 0.4rem;
+      border-radius: 3px;
+      margin-left: 0.5rem;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- LOGIN -->
+  <div class="login-box" id="login-box">
+    <h1 class="admin-title">Admin</h1>
+    <input type="text" id="admin-user" placeholder="User" autofocus />
+    <input type="password" id="admin-password" placeholder="Password" />
+    <button class="btn btn-primary" onclick="checkLogin()" style="width:100%">Enter</button>
+    <p class="login-error" id="login-error">Wrong credentials</p>
+  </div>
+
+  <!-- ADMIN PANEL -->
+  <div class="admin-wrap admin-form" id="admin-panel">
+    <h1 class="admin-title">Manage Events</h1>
+
+    <form id="event-form" onsubmit="return handleSubmit(event)">
+      <div class="form-group">
+        <label>Flyer Image</label>
+        <input type="file" id="flyer-input" accept="image/*" onchange="previewImage(this)" />
+        <img class="image-preview" id="image-preview" alt="Preview" />
+      </div>
+
+      <div class="form-group">
+        <label>Title *</label>
+        <input type="text" id="ev-title" required placeholder="e.g. Kiko Navarro @ Pacha" />
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Date *</label>
+          <input type="date" id="ev-date" required />
+        </div>
+        <div class="form-group">
+          <label>Time</label>
+          <input type="time" id="ev-time" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Venue *</label>
+          <input type="text" id="ev-venue" required placeholder="e.g. Pacha Ibiza" />
+        </div>
+        <div class="form-group">
+          <label>City *</label>
+          <input type="text" id="ev-city" required placeholder="e.g. Ibiza, Spain" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Ticket Link</label>
+        <input type="url" id="ev-tickets" placeholder="https://..." />
+      </div>
+
+      <div class="form-group">
+        <label>Comment</label>
+        <textarea id="ev-comment" placeholder="Optional notes..."></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-submit" id="btn-submit">Add Event</button>
+      <div class="status-msg" id="status-msg"></div>
+    </form>
+
+    <!-- EXISTING EVENTS -->
+    <div class="events-admin-list">
+      <h2>Current Events</h2>
+      <div id="events-list"></div>
+    </div>
+  </div>
+
+  <!-- Firebase SDK (compat) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+  <script>
+    // Firebase config
+    firebase.initializeApp({
+      apiKey: "AIzaSyCIEqwzcRZUH-BKrbtwYukf1eKvx77CmRk",
+      authDomain: "kikonavarro-b94ef.firebaseapp.com",
+      projectId: "kikonavarro-b94ef",
+      storageBucket: "kikonavarro-b94ef.firebasestorage.app",
+      messagingSenderId: "492377387568",
+      appId: "1:492377387568:web:f91a92609ebb70331173f5"
+    });
+
+    const db = firebase.firestore();
+    const ADMIN_USER = "kikonavarro";
+    const ADMIN_PASS = "Events8!";
+
+    // --- Login ---
+    document.getElementById('admin-password').addEventListener('keydown', e => {
+      if (e.key === 'Enter') checkLogin();
+    });
+
+    function checkLogin() {
+      const user = document.getElementById('admin-user').value;
+      const pass = document.getElementById('admin-password').value;
+      if (user === ADMIN_USER && pass === ADMIN_PASS) {
+        document.getElementById('login-box').style.display = 'none';
+        document.getElementById('admin-panel').classList.add('active');
+        loadEvents();
+      } else {
+        document.getElementById('login-error').style.display = 'block';
+      }
+    }
+
+    // --- Image preview & compression ---
+    let compressedImage = null;
+
+    function previewImage(input) {
+      const file = input.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const img = new Image();
+        img.onload = function () {
+          // Resize to max 800px width, convert to WebP
+          const canvas = document.createElement('canvas');
+          const MAX_W = 800;
+          let w = img.width;
+          let h = img.height;
+          if (w > MAX_W) {
+            h = Math.round(h * MAX_W / w);
+            w = MAX_W;
+          }
+          canvas.width = w;
+          canvas.height = h;
+          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+
+          // Try WebP, fallback to JPEG
+          compressedImage = canvas.toDataURL('image/webp', 0.75);
+          if (compressedImage.length < 50) {
+            compressedImage = canvas.toDataURL('image/jpeg', 0.75);
+          }
+
+          const preview = document.getElementById('image-preview');
+          preview.src = compressedImage;
+          preview.style.display = 'block';
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // --- Submit event ---
+    async function handleSubmit(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btn-submit');
+      const statusEl = document.getElementById('status-msg');
+      btn.disabled = true;
+      btn.textContent = 'Saving...';
+      statusEl.className = 'status-msg';
+      statusEl.style.display = 'none';
+
+      try {
+        const data = {
+          title: document.getElementById('ev-title').value.trim(),
+          date: document.getElementById('ev-date').value,
+          time: document.getElementById('ev-time').value || null,
+          venue: document.getElementById('ev-venue').value.trim(),
+          city: document.getElementById('ev-city').value.trim(),
+          tickets: document.getElementById('ev-tickets').value.trim() || null,
+          comment: document.getElementById('ev-comment').value.trim() || null,
+          flyer: compressedImage || null,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+
+        await db.collection('events').add(data);
+
+        statusEl.textContent = 'Event added!';
+        statusEl.className = 'status-msg success';
+        document.getElementById('event-form').reset();
+        document.getElementById('image-preview').style.display = 'none';
+        compressedImage = null;
+        loadEvents();
+      } catch (err) {
+        statusEl.textContent = 'Error: ' + err.message;
+        statusEl.className = 'status-msg error';
+      }
+
+      btn.disabled = false;
+      btn.textContent = 'Add Event';
+    }
+
+    // --- Load & display events ---
+    async function loadEvents() {
+      const container = document.getElementById('events-list');
+      container.innerHTML = '<p class="no-events">Loading...</p>';
+
+      try {
+        const snapshot = await db.collection('events').orderBy('date', 'asc').get();
+
+        if (snapshot.empty) {
+          container.innerHTML = '<p class="no-events">No events yet.</p>';
+          return;
+        }
+
+        const today = new Date().toISOString().split('T')[0];
+        let html = '';
+
+        snapshot.forEach(doc => {
+          const ev = doc.data();
+          const isPast = ev.date < today;
+          const dateStr = formatDate(ev.date);
+
+          html += `
+            <div class="event-admin-item ${isPast ? 'event-past' : ''}">
+              ${ev.flyer ? `<img src="${ev.flyer}" alt="Flyer">` : ''}
+              <div class="event-admin-info">
+                <strong>${ev.title}${isPast ? '<span class="event-past-badge">Past</span>' : ''}</strong>
+                <span>${dateStr}${ev.time ? ' · ' + ev.time : ''} · ${ev.venue}, ${ev.city}</span>
+              </div>
+              <button class="btn-danger" onclick="deleteEvent('${doc.id}')">Delete</button>
+            </div>`;
+        });
+
+        container.innerHTML = html;
+      } catch (err) {
+        container.innerHTML = `<p class="no-events">Error loading events: ${err.message}</p>`;
+      }
+    }
+
+    // --- Delete event ---
+    async function deleteEvent(id) {
+      if (!confirm('Delete this event?')) return;
+      try {
+        await db.collection('events').doc(id).delete();
+        loadEvents();
+      } catch (err) {
+        alert('Error: ' + err.message);
+      }
+    }
+
+    // --- Format date ---
+    function formatDate(dateStr) {
+      const d = new Date(dateStr + 'T00:00:00');
+      return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+    }
+  </script>
+
+</body>
+
+</html>

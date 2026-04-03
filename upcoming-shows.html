@@ -36,6 +36,35 @@
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="icon" type="image/png" href="favicon.png">
   <script src="assets/js/components.js" defer></script>
+  <style>
+    .show-flyer {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    .show-comment {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--accent-muted);
+      margin-top: 0.3rem;
+      font-style: italic;
+    }
+
+    .shows-list-modern li {
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 600px) {
+      .show-flyer {
+        width: 100%;
+        height: auto;
+        max-height: 200px;
+      }
+    }
+  </style>
 
   <!-- JSON-LD Event -->
   <script type="application/ld+json">
@@ -68,13 +97,11 @@
         <p style="color: var(--text-muted);">Catch Kiko Navarro live around the world.</p>
       </div>
 
-      <!-- SHOWS LIST -->
-      <ul class="shows-list-modern">
+      <!-- SHOWS LIST (loaded from Firebase) -->
+      <ul class="shows-list-modern" id="shows-list">
         <li style="justify-content: center; padding: 3rem 1rem; text-align: center;">
           <div class="show-info" style="align-items: center;">
-            <span class="show-venue" style="font-size: 1.5rem;">New Dates Coming Soon</span>
-            <span class="show-city" style="color: var(--text-muted); margin-top: 0.5rem;">Stay tuned for the 2026 tour
-              announcements.</span>
+            <span class="show-venue" style="font-size: 1.2rem; color: var(--text-muted);">Loading...</span>
           </div>
         </li>
       </ul>
@@ -89,6 +116,80 @@
 
   <!-- FOOTER -->
   <footer class="site-footer" id="footer-placeholder"></footer>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script>
+    firebase.initializeApp({
+      apiKey: "AIzaSyCIEqwzcRZUH-BKrbtwYukf1eKvx77CmRk",
+      authDomain: "kikonavarro-b94ef.firebaseapp.com",
+      projectId: "kikonavarro-b94ef",
+      storageBucket: "kikonavarro-b94ef.firebasestorage.app",
+      messagingSenderId: "492377387568",
+      appId: "1:492377387568:web:f91a92609ebb70331173f5"
+    });
+
+    const db = firebase.firestore();
+
+    async function loadShows() {
+      const container = document.getElementById('shows-list');
+      const today = new Date().toISOString().split('T')[0];
+
+      try {
+        const snapshot = await db.collection('events')
+          .where('date', '>=', today)
+          .orderBy('date', 'asc')
+          .get();
+
+        if (snapshot.empty) {
+          container.innerHTML = `
+            <li style="justify-content: center; padding: 3rem 1rem; text-align: center;">
+              <div class="show-info" style="align-items: center;">
+                <span class="show-venue" style="font-size: 1.5rem;">New Dates Coming Soon</span>
+                <span class="show-city" style="color: var(--text-muted); margin-top: 0.5rem;">Stay tuned for the 2026 tour announcements.</span>
+              </div>
+            </li>`;
+          return;
+        }
+
+        let html = '';
+        snapshot.forEach(doc => {
+          const ev = doc.data();
+          const d = new Date(ev.date + 'T00:00:00');
+          const day = d.getDate();
+          const month = d.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
+          const year = d.getFullYear();
+
+          html += `<li>
+            ${ev.flyer ? `<img src="${ev.flyer}" alt="${ev.title}" class="show-flyer">` : ''}
+            <div class="show-date">
+              <span class="show-day">${day}</span>
+              <span class="show-month">${month} ${year}</span>
+            </div>
+            <div class="show-info">
+              <span class="show-venue">${ev.venue}</span>
+              <span class="show-city">${ev.city}${ev.time ? ' · ' + ev.time : ''}</span>
+              ${ev.comment ? `<span class="show-comment">${ev.comment}</span>` : ''}
+            </div>
+            ${ev.tickets ? `<div class="show-cta"><a href="${ev.tickets}" class="btn btn-primary" target="_blank" rel="noopener">Tickets</a></div>` : ''}
+          </li>`;
+        });
+
+        container.innerHTML = html;
+      } catch (err) {
+        container.innerHTML = `
+          <li style="justify-content: center; padding: 3rem 1rem; text-align: center;">
+            <div class="show-info" style="align-items: center;">
+              <span class="show-venue" style="font-size: 1.5rem;">New Dates Coming Soon</span>
+              <span class="show-city" style="color: var(--text-muted); margin-top: 0.5rem;">Stay tuned for the 2026 tour announcements.</span>
+            </div>
+          </li>`;
+      }
+    }
+
+    loadShows();
+  </script>
 
 </body>
 

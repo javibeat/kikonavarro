@@ -107,6 +107,18 @@
     </div>
   </section>
 
+  <!-- UPCOMING SHOWS (from Firebase) -->
+  <section id="tour" style="background-color: var(--bg-surface);">
+    <div class="container">
+      <h2 class="section-title">Upcoming <span>Shows</span></h2>
+      <ul class="shows-list" id="home-shows" style="display:none;"></ul>
+      <p id="home-shows-empty" style="text-align:center; color:var(--text-muted); display:none;">New dates coming soon.</p>
+      <div style="text-align: center; margin-top: 2rem;">
+        <a href="upcoming-shows.html" class="btn btn-secondary">All Tour Dates</a>
+      </div>
+    </div>
+  </section>
+
   <!-- LIVE GALLERY -->
   <section style="background-color: var(--bg-surface);">
     <div class="container">
@@ -122,6 +134,68 @@
 
   <!-- FOOTER -->
   <footer class="site-footer" id="footer-placeholder"></footer>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script>
+    firebase.initializeApp({
+      apiKey: "AIzaSyCIEqwzcRZUH-BKrbtwYukf1eKvx77CmRk",
+      authDomain: "kikonavarro-b94ef.firebaseapp.com",
+      projectId: "kikonavarro-b94ef",
+      storageBucket: "kikonavarro-b94ef.firebasestorage.app",
+      messagingSenderId: "492377387568",
+      appId: "1:492377387568:web:f91a92609ebb70331173f5"
+    });
+
+    const db = firebase.firestore();
+
+    async function loadHomeShows() {
+      const list = document.getElementById('home-shows');
+      const empty = document.getElementById('home-shows-empty');
+      const today = new Date().toISOString().split('T')[0];
+
+      try {
+        const snapshot = await db.collection('events')
+          .where('date', '>=', today)
+          .orderBy('date', 'asc')
+          .limit(3)
+          .get();
+
+        if (snapshot.empty) {
+          empty.style.display = 'block';
+          return;
+        }
+
+        let html = '';
+        snapshot.forEach(doc => {
+          const ev = doc.data();
+          const d = new Date(ev.date + 'T00:00:00');
+          const day = d.getDate();
+          const month = d.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
+
+          html += `<li class="show-item">
+            <div class="show-date">
+              <span class="show-day">${day}</span>
+              <span class="show-month">${month}</span>
+            </div>
+            <div class="show-info">
+              <span class="show-venue">${ev.venue}</span>
+              <span class="show-location">${ev.city}</span>
+            </div>
+            ${ev.tickets ? `<div class="show-cta"><a href="${ev.tickets}" class="btn btn-primary" target="_blank" rel="noopener">Tickets</a></div>` : ''}
+          </li>`;
+        });
+
+        list.innerHTML = html;
+        list.style.display = 'block';
+      } catch (err) {
+        empty.style.display = 'block';
+      }
+    }
+
+    loadHomeShows();
+  </script>
 
 </body>
 
