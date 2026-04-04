@@ -228,15 +228,18 @@
   <!-- LOGIN -->
   <div class="login-box" id="login-box">
     <h1 class="admin-title">Admin</h1>
-    <input type="text" id="admin-user" placeholder="User" autofocus />
+    <input type="email" id="admin-email" placeholder="Email" autofocus />
     <input type="password" id="admin-password" placeholder="Password" />
     <button class="btn btn-primary" onclick="checkLogin()" style="width:100%">Enter</button>
-    <p class="login-error" id="login-error">Wrong credentials</p>
+    <p class="login-error" id="login-error"></p>
   </div>
 
   <!-- ADMIN PANEL -->
   <div class="admin-wrap admin-form" id="admin-panel">
-    <h1 class="admin-title">Manage Events</h1>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem">
+      <h1 class="admin-title" style="margin-bottom:0">Manage Events</h1>
+      <button class="btn-danger" onclick="logout()">Logout</button>
+    </div>
 
     <form id="event-form" onsubmit="return handleSubmit(event)">
       <div class="form-group">
@@ -295,6 +298,7 @@
 
   <!-- Firebase SDK (compat) -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
   <script>
@@ -309,24 +313,41 @@
     });
 
     const db = firebase.firestore();
-    const ADMIN_USER = "kikonavarro";
-    const ADMIN_PASS = "Events8!";
+    const auth = firebase.auth();
+
+    // --- Auth state listener ---
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        document.getElementById('login-box').style.display = 'none';
+        document.getElementById('admin-panel').classList.add('active');
+        loadEvents();
+      } else {
+        document.getElementById('login-box').style.display = '';
+        document.getElementById('admin-panel').classList.remove('active');
+      }
+    });
 
     // --- Login ---
     document.getElementById('admin-password').addEventListener('keydown', e => {
       if (e.key === 'Enter') checkLogin();
     });
 
-    function checkLogin() {
-      const user = document.getElementById('admin-user').value;
+    async function checkLogin() {
+      const email = document.getElementById('admin-email').value;
       const pass = document.getElementById('admin-password').value;
-      if (user === ADMIN_USER && pass === ADMIN_PASS) {
-        document.getElementById('login-box').style.display = 'none';
-        document.getElementById('admin-panel').classList.add('active');
-        loadEvents();
-      } else {
-        document.getElementById('login-error').style.display = 'block';
+      const errorEl = document.getElementById('login-error');
+      errorEl.style.display = 'none';
+
+      try {
+        await auth.signInWithEmailAndPassword(email, pass);
+      } catch (err) {
+        errorEl.textContent = 'Wrong credentials';
+        errorEl.style.display = 'block';
       }
+    }
+
+    function logout() {
+      auth.signOut();
     }
 
     // --- Image preview & compression ---
@@ -408,12 +429,25 @@
       btn.textContent = 'Add Event';
     }
 
+    // --- Auto-delete past events ---
+    async function deletePastEvents() {
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      const cutoff = yesterday.toISOString().split('T')[0];
+
+      const snapshot = await db.collection('events').where('date', '<=', cutoff).get();
+      const batch = db.batch();
+      snapshot.forEach(doc => batch.delete(doc.ref));
+      if (!snapshot.empty) await batch.commit();
+    }
+
     // --- Load & display events ---
     async function loadEvents() {
       const container = document.getElementById('events-list');
       container.innerHTML = '<p class="no-events">Loading...</p>';
 
       try {
+        await deletePastEvents();
         const snapshot = await db.collection('events').orderBy('date', 'asc').get();
 
         if (snapshot.empty) {
@@ -421,19 +455,17 @@
           return;
         }
 
-        const today = new Date().toISOString().split('T')[0];
         let html = '';
 
         snapshot.forEach(doc => {
           const ev = doc.data();
-          const isPast = ev.date < today;
           const dateStr = formatDate(ev.date);
 
           html += `
-            <div class="event-admin-item ${isPast ? 'event-past' : ''}">
+            <div class="event-admin-item">
               ${ev.flyer ? `<img src="${ev.flyer}" alt="Flyer">` : ''}
               <div class="event-admin-info">
-                <strong>${ev.title}${isPast ? '<span class="event-past-badge">Past</span>' : ''}</strong>
+                <strong>${ev.title}</strong>
                 <span>${dateStr}${ev.time ? ' · ' + ev.time : ''} · ${ev.venue}, ${ev.city}</span>
               </div>
               <button class="btn-danger" onclick="deleteEvent('${doc.id}')">Delete</button>
