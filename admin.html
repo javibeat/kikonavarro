@@ -277,7 +277,7 @@
 
       <div class="form-group">
         <label>Ticket Link</label>
-        <input type="url" id="ev-tickets" placeholder="https://..." />
+        <input type="text" id="ev-tickets" placeholder="https://... o enlace sin https" />
       </div>
 
       <div class="form-group">
@@ -350,6 +350,12 @@
       auth.signOut();
     }
 
+    function formatUrl(url) {
+      if (!url) return null;
+      if (!/^https?:\/\//i.test(url)) return 'https://' + url;
+      return url;
+    }
+
     // --- Image preview & compression ---
     let compressedImage = null;
 
@@ -406,7 +412,7 @@
           time: document.getElementById('ev-time').value || null,
           venue: document.getElementById('ev-venue').value.trim(),
           city: document.getElementById('ev-city').value.trim(),
-          tickets: document.getElementById('ev-tickets').value.trim() || null,
+          tickets: formatUrl(document.getElementById('ev-tickets').value.trim()),
           comment: document.getElementById('ev-comment').value.trim() || null,
           flyer: compressedImage || null,
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
